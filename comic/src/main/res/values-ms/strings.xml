@@ -1,0 +1,47 @@
+<resources>
+
+    <string name="btn_nxt">NEXT</string>
+    <string name="hometext">Laman Utama</string>
+
+    <string name="app_name">Pemburu Cahaya</string>
+
+    <!-- Passcode -->
+    <string name="enter_passcode">Masukkan no siri untuk mula</string>
+
+    <!-- Homepage -->
+    <string name="select_story">Pilih Cerita</string>
+    <string name="storyA">Kisah Dania</string>
+    <string name="storyB">Kisah Leyla</string>
+    <string name="storyC">Kisah Matt</string>
+    <string name="storyD">Kisah Unga</string>
+
+    <!-- Comic Slide -->
+    <string name="bookmark">Tanda Mukasurat</string>
+    <string name="bookmark_confirm">Sah tanda mukasurat ini</string>
+    <string name="bookmark_no">Tidak</string>
+    <string name="bookmark_yes">Ya</string>
+
+    <string name="comic_exit_alpha">Keluar?</string>
+    <string name="comic_confirm_exit">Yakin untuk keluar dari applikasi?</string>
+    <string name="comic_cancel_exit">Tidak</string>
+    <string name="comic_exit">Keluar</string>
+    <string name="comic_proceed">Teruskan?</string>
+
+    <string name="comic_next_option">Pilih seterusnya</string>
+    <string name="comic_end">Tahniah. Cerita Tamat.</string>
+    <string name="music">Muzik latarbelakang</string>
+    <string name="version">Versi</string>
+
+    <!-- Settting -->
+    <string name="change_language">Tukar Bahasa</string>
+    <string name="enable_notification">Benarkan notifikasi</string>
+
+    <string-array name="language_list">
+        <item>Bahasa Malaysia-ms</item>
+        <item>English-en</item>
+    </string-array>
+
+    <string name="facebook_app_id">1143272665731321</string>
+
+
+</resources>

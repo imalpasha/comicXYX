@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:launchMode="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.app.comic">
+
+    <uses-sdk
+        android:minSdkVersion="2"
+        android:targetSdkVersion="16"
+        tools:overrideLibrary="dmax.dialog" />
+
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+
+    <uses-feature
+        android:name="android.hardware.sensor.accelerometer"
+        android:required="true" />
+
+    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature
+        android:name="android.hardware.camera.front"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
+
+    <!-- GCM requires a Google account. -->
+    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
+
+
+    <!-- Creates a custom permission so only this app can receive its messages. -->
+    <permission
+        android:name="com.app.comic.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.app.comic.permission.C2D_MESSAGE" />
+
+    <!-- This app has permission to register and receive data message. -->
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+
+    <application
+        android:name=".application.MainApplication"
+        android:allowBackup="true"
+        android:icon="@mipmap/drawable_xhdpi_icon"
+        android:label="@string/app_name"
+        android:launchMode="singleTop"
+        android:theme="@style/MyCustomTheme"
+        android:vmSafeMode="true"
+        tools:replace="android:icon">
+
+        <activity
+            android:name=".ui.Activity.Homepage.HomeActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/landingTheme" />
+
+
+        <!-- SPLASH SCREEN -->
+        <activity
+            android:name=".ui.Activity.SplashScreen.SplashScreenActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/SplashTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ui.Activity.PushNotificationActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/landingTheme"></activity>
+
+        <activity
+            android:name=".ui.Activity.SplashScreen.Comic.OnBoardingActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/landingTheme"></activity>
+
+        <activity
+            android:name=".ui.Activity.SplashScreen.SettingActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/landingTheme">
+
+        </activity>
+
+        <activity
+            android:name=".ui.Activity.SplashScreen.InfoActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/landingTheme">
+
+        </activity>
+
+        <activity
+            android:name=".ui.Activity.SplashScreen.PassCodeActivity"
+            android:screenOrientation="landscape"
+            android:theme="@style/landingTheme">
+
+        </activity>
+
+        <receiver
+            android:name="com.google.android.gms.analytics.AnalyticsReceiver"
+            android:enabled="true">
+            <intent-filter>
+                <action android:name="com.google.android.gms.analytics.ANALYTICS_DISPATCH" />
+            </intent-filter>
+        </receiver>
+
+
+        <service
+            android:name="com.google.android.gms.analytics.AnalyticsService"
+            android:enabled="true"
+            android:exported="false" />
+
+        <!--
+             Optionally, register CampaignTrackingReceiver and CampaignTrackingService to enable
+             installation campaign reporting
+        -->
+        <receiver
+            android:name="com.google.android.gms.analytics.CampaignTrackingReceiver"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="com.android.vending.INSTALL_REFERRER" />
+            </intent-filter>
+        </receiver>
+
+        <!-- FIREBASE -->
+        <service android:name=".application.MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".application.MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+
+        <!-- <receiver android:name="com.fly.firefly.ui.activity.GeoFencing.GeofenceTransitionReceiver$switchButtonListener" />-->
+
+        <service android:name="com.google.android.gms.analytics.CampaignTrackingService" />
+
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="6f38953bcf07d7c4f8dd57baf34092f3e0c08720" />
+
+
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="AIzaSyB0QRtXyjzYCW0PhkHnAkVr_pifTVuphKg" />
+
+        <meta-data
+            android:name="com.facebook.sdk.ApplicationId"
+            android:value="@string/facebook_app_id" />
+
+    </application>
+
+</manifest>

@@ -1,0 +1,51 @@
+<resources>
+
+    <string name="btn_nxt">NEXT</string>
+    <string name="hometext">HOMEPAGE</string>
+
+    <string name="app_name">Pemburu Cahaya</string>
+
+    <!-- Passcode -->
+    <string name="enter_passcode">Enter passcode to start</string>
+
+    <!--Home -->
+    <string name="select_story">Select Story</string>
+    <string name="storyA">Dania Journey</string>
+    <string name="storyB">Leyla Journey</string>
+    <string name="storyC">Matt Journey</string>
+    <string name="storyD">Unga Journey</string>
+
+    <!-- Comic Slide -->
+    <string name="bookmark">Bookmark</string>
+    <string name="bookmark_confirm">Do you want to bookmark this page?</string>
+    <string name="bookmark_no">No</string>
+    <string name="bookmark_yes">Yes</string>
+
+    <string name="comic_exit_alpha">EXIT?</string>
+    <string name="comic_confirm_exit">Are you sure want to exit?</string>
+    <string name="comic_cancel_exit">Cancel</string>
+    <string name="comic_exit">Exit</string>
+
+    <string name="comic_next_option">Choose next action</string>
+    <string name="comic_end">Congratulations. Comic Finished.</string>
+    <string name="comic_proceed">Proceed?</string>
+
+    <!-- Settting -->
+    <string name="change_language">Change language</string>
+    <string name="enable_notification">Enable notification</string>
+    <string name="music">Background music</string>
+    <string name="version">Version</string>
+
+
+
+
+
+    <string-array name="language_list">
+        <item>Bahasa Malaysia-ms</item>
+        <item>English-en</item>
+    </string-array>
+
+    <string name="facebook_app_id">1143272665731321</string>
+
+
+</resources>
