@@ -604,6 +604,9 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                 close++;
                 if (close > 1 && !optionLevel.equals("0") && position == 0 && positionOffsetPixels == 0) {
                     if (bookmarkPosition == null) {
+
+                        Log.e("Previous page","False_1");
+                        /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
                             HashMap<String, String> params = new HashMap<String, String>();
                             params.put("character", comicReceive.getData().getPages().get(0).getCharacter());
@@ -616,7 +619,11 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                         } else {
                             //getActivity().finish();
                         }
+                        */
                     } else {
+
+                        Log.e("Previous page","False_2");
+                        /*
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("character", comicReceive.getData().getPages().get(0).getCharacter());
                         params.put("level", comicReceive.getData().getPrevious_level());
@@ -625,6 +632,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                         fromBookmark = true;
                         initiateLoading(getActivity());
                         presenter.onComicRequest(params);
+                        */
                     }
                 } else {
                     Log.e("secondaryClose inc", Integer.toString(secondaryClose));
@@ -636,6 +644,8 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
 
                     if (secondaryClose > 2 && bookmarkPosition != null && optionLevel.equals("0") && position == 0 && positionOffset == 0 && positionOffsetPixels == 0) {
 
+                        Log.e("Previous page","False_3");
+                        /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
                             HashMap<String, String> params = new HashMap<String, String>();
                             params.put("character", comicReceive.getData().getPages().get(0).getCharacter());
@@ -646,6 +656,8 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                             initiateLoading(getActivity());
                             presenter.onComicRequest(params);
                         }
+                        */
+
                     }
                 }
             }
