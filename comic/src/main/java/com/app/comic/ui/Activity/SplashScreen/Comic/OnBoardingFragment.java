@@ -600,6 +600,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
             }
 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                comic_page_flip(getActivity());
                 Log.e("onPageScrollState", Integer.toString(position) + "-" + Float.toString(positionOffset) + "-" + Integer.toString(positionOffsetPixels));
                 close++;
                 if (close > 1 && !optionLevel.equals("0") && position == 0 && positionOffsetPixels == 0) {

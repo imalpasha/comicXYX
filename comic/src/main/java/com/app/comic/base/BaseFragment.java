@@ -127,6 +127,11 @@ public class BaseFragment extends Fragment {
         mp.start();
     }
 
+    public void comic_page_flip(Activity act) {
+        final MediaPlayer mp = MediaPlayer.create(act, R.raw.page_sound);
+        mp.start();
+    }
+
     public static void comic_backgroundMusic(Activity act) {
         if (backgroundMP != null) {
             backgroundMP.stop();

@@ -106,7 +106,9 @@
                         android:id="@+id/switch1"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0.5" />
+                        android:layout_weight="0.5"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -132,7 +134,10 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
-                        android:checked="true" />
+                        android:checked="true"
+                        android:thumb="@drawable/switch_thumb"
+                        android:track="@drawable/switch_track" />
+
                 </LinearLayout>
 
 
