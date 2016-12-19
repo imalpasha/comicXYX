@@ -72,12 +72,12 @@
                     <TextView
                         android:id="@+id/txtLanguageSelection"
                         android:layout_width="0dp"
-                        android:padding="3dp"
-                        android:text="xx"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:background="@color/transparent_black"
                         android:gravity="center"
+                        android:padding="3dp"
+                        android:text="xx"
                         android:textColor="@color/white"
                         android:textSize="18dp"
                         android:textStyle="bold" />
@@ -107,8 +107,12 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
+                        android:switchMinWidth="40dp"
+                        android:textOff="xx"
+                        android:textOn="xx"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track" />
+
                 </LinearLayout>
 
                 <LinearLayout
@@ -134,7 +138,9 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="0.5"
-                        android:checked="true"
+                        android:switchMinWidth="40dp"
+                        android:textOff="xx"
+                        android:textOn="xx"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track" />
 

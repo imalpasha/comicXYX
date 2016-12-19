@@ -125,11 +125,23 @@ public class BaseFragment extends Fragment {
     public void comic_btnClicked(Activity act) {
         final MediaPlayer mp = MediaPlayer.create(act, R.raw.gets_in_the_way);
         mp.start();
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+
+            }
+        });
     }
 
     public void comic_page_flip(Activity act) {
-        final MediaPlayer mp = MediaPlayer.create(act, R.raw.page_sound);
+        final MediaPlayer mp = MediaPlayer.create(act, R.raw.gets_in_the_way);
         mp.start();
+        mp.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            public void onCompletion(MediaPlayer mp) {
+                mp.release();
+
+            }
+        });
     }
 
     public static void comic_backgroundMusic(Activity act) {

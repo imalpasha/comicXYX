@@ -600,13 +600,12 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
             }
 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                comic_page_flip(getActivity());
                 Log.e("onPageScrollState", Integer.toString(position) + "-" + Float.toString(positionOffset) + "-" + Integer.toString(positionOffsetPixels));
                 close++;
                 if (close > 1 && !optionLevel.equals("0") && position == 0 && positionOffsetPixels == 0) {
                     if (bookmarkPosition == null) {
 
-                        Log.e("Previous page","False_1");
+                        Log.e("Previous page", "False_1");
                         /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
                             HashMap<String, String> params = new HashMap<String, String>();
@@ -623,7 +622,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                         */
                     } else {
 
-                        Log.e("Previous page","False_2");
+                        Log.e("Previous page", "False_2");
                         /*
                         HashMap<String, String> params = new HashMap<String, String>();
                         params.put("character", comicReceive.getData().getPages().get(0).getCharacter());
@@ -645,7 +644,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
 
                     if (secondaryClose > 2 && bookmarkPosition != null && optionLevel.equals("0") && position == 0 && positionOffset == 0 && positionOffsetPixels == 0) {
 
-                        Log.e("Previous page","False_3");
+                        Log.e("Previous page", "False_3");
                         /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
                             HashMap<String, String> params = new HashMap<String, String>();
@@ -664,6 +663,12 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
             }
 
             public void onPageSelected(final int position) {
+                comic_page_flip(getActivity());
+
+                if (position == 2 && optionLevel.equals("2")) {
+                    Log.e("User want to continue?", "Y");
+                }
+
                 Log.e("onPageSelected", Integer.toString(position));
                 if (position == 0) {
                     reachingFirst = true;
