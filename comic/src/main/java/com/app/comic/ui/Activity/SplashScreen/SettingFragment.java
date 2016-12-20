@@ -36,6 +36,10 @@ public class SettingFragment extends BaseFragment {
     @InjectView(R.id.musicSwitch)
     Switch musicSwitch;
 
+    @InjectView(R.id.notificationSwitch)
+    Switch notificationSwitch;
+
+
     @InjectView(R.id.txtLanguageSelection)
     TextView txtLanguageSelection;
 
@@ -94,10 +98,23 @@ public class SettingFragment extends BaseFragment {
                 if (b) {
                     comic_backgroundMusic(getActivity());
                     pref.setMusic("Y");
+                    musicSwitch.setSwitchTextAppearance(getActivity(), R.style.switch_on);
                 } else {
                     comic_stopBackgroundMusic();
                     pref.setMusic("N");
+                    musicSwitch.setSwitchTextAppearance(getActivity(), R.style.switch_off);
 
+                }
+            }
+        });
+
+        notificationSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                if (b) {
+                    notificationSwitch.setSwitchTextAppearance(getActivity(), R.style.switch_on);
+                } else {
+                    notificationSwitch.setSwitchTextAppearance(getActivity(), R.style.switch_off);
                 }
             }
         });

@@ -103,13 +103,14 @@
                         android:textStyle="bold" />
 
                     <Switch
-                        android:id="@+id/switch1"
+                        android:id="@+id/notificationSwitch"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="0.5"
                         android:switchMinWidth="40dp"
                         android:textOff="xx"
                         android:textOn="xx"
+                        android:switchTextAppearance="@style/switch_off"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track" />
 
@@ -141,6 +142,7 @@
                         android:switchMinWidth="40dp"
                         android:textOff="xx"
                         android:textOn="xx"
+                        android:switchTextAppearance="@style/switch_off"
                         android:thumb="@drawable/switch_thumb"
                         android:track="@drawable/switch_track" />
 

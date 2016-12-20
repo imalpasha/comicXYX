@@ -105,5 +105,11 @@
         <item name="android:windowIsFloating">false</item>
     </style>
 
+    <style name="switch_on" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">#4286f4</item>
+    </style>
 
+    <style name="switch_off" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">#FE34</item>
+    </style>
 </resources>
