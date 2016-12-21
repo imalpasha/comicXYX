@@ -30,6 +30,10 @@
     <string name="comic_end">Congratulations. Comic Finished.</string>
     <string name="comic_proceed">Proceed?</string>
 
+    <string name="back_homepage">Homepage</string>
+    <string name="confirm_homepage">Confirm back to homepage?</string>
+
+
     <!-- Settting -->
     <string name="change_language">Change language</string>
     <string name="enable_notification">Enable notification</string>

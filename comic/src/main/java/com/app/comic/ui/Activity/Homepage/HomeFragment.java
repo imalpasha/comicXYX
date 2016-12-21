@@ -213,7 +213,11 @@ public class HomeFragment extends BaseFragment implements HomePresenter.ComicVie
             RealmObjectController.setComicD(getActivity(), comicD);
 
             Intent onBoard = new Intent(getActivity(), OnBoardingActivity.class);
+            onBoard.putExtra("PREVIOUS_LEVEL", obj.getData().getPages().get(0).getLevel());
+            onBoard.putExtra("PREVIOUS_OPTION", obj.getData().getPages().get(0).getOption());
             getActivity().startActivity(onBoard);
+            getActivity().finish();
+            System.gc();
 
         }
     }

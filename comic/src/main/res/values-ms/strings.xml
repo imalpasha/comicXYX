@@ -32,6 +32,9 @@
     <string name="music">Muzik latarbelakang</string>
     <string name="version">Versi</string>
 
+    <string name="back_homepage">Laman Utama</string>
+    <string name="confirm_homepage">Yakin balik ke laman utama?</string>
+
     <!-- Settting -->
     <string name="change_language">Tukar Bahasa</string>
     <string name="enable_notification">Benarkan notifikasi</string>

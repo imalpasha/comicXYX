@@ -26,6 +26,7 @@ import com.app.comic.R;
 import com.app.comic.application.MainApplication;
 import com.app.comic.base.BaseFragment;
 import com.app.comic.ui.Activity.FragmentContainerActivity;
+import com.app.comic.ui.Activity.Homepage.HomeActivity;
 import com.app.comic.ui.Activity.SplashScreen.PassCodeActivity;
 import com.app.comic.ui.Model.JSON.Bookmark;
 import com.app.comic.ui.Model.JSON.ComicInfoD;
@@ -98,7 +99,9 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
     private Boolean proceed = false;
     int pagesDownloaded = 0;
     int totalToDownload = 0;
+    Boolean notPopup = false;
     //PhotoViewAttacher mAttacher;
+    String previous_level, previous_option;
 
     public static OnBoardingFragment newInstance(Bundle bundle) {
 
@@ -132,6 +135,15 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
         }
 
         try {
+            if (bundle.containsKey("PREVIOUS_LEVEL")) {
+                previous_level = bundle.getString("PREVIOUS_LEVEL");
+                previous_option = bundle.getString("PREVIOUS_OPTION");
+            }
+        } catch (Exception e) {
+
+        }
+
+        try {
             if (bundle.containsKey("POSITION")) {
                 bookmarkPosition = bundle.getString("POSITION");
             }
@@ -153,7 +165,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
             public void onClick(View v) {
 
                 home();
-                getActivity().finish();
+
             }
         });
 
@@ -169,6 +181,9 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
         Realm realm = RealmObjectController.getRealmInstance(getActivity());
         final RealmResults<ComicInfoD> result2 = realm.where(ComicInfoD.class).findAll();
         comicReceive = (new Gson()).fromJson(result2.get(0).getComicD(), ComicReceive.class);
+
+        //previous_level = comicReceive.getData().getPages().get(0).getLevel();
+        //previous_option = comicReceive.getData().getPages().get(0).getOption();
 
         final RealmResults<TokenInfoJSON> result3 = realm.where(TokenInfoJSON.class).findAll();
         AuthReceive authReceive = (new Gson()).fromJson(result3.get(0).getTokenInfo(), AuthReceive.class);
@@ -199,7 +214,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
         initiateLoading(getActivity());
 
         for (int x = 0; x < comicReceive.getData().getPages().size(); x++) {
-            Log.e("Download pages image", comicReceive.getData().getPages().get(x).getImage_name());
             String path = comicReceive.getData().getPages().get(x).getImage_name();
             proceed = false;
             download(path);
@@ -234,7 +248,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
     }
 
     public void checkAllDownLoaded() {
-        Log.e(Integer.toString(pagesDownloaded), Integer.toString(totalToDownload));
         if (pagesDownloaded == totalToDownload) {
             startPagination(comicReceive);
             dismissLoading();
@@ -244,18 +257,18 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
     public void home() {
 
         new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
-                .setTitleText(".HOMEPAGE.")
-                .setContentText("Back to homepage?")
+                .setTitleText(getResources().getString(R.string.back_homepage))
+                .setContentText(getResources().getString(R.string.confirm_homepage))
                 .showCancelButton(true)
-                .setCancelText("Cancel")
-                .setConfirmText("Confirm")
+                .setCancelText(getResources().getString(R.string.bookmark_no))
+                .setConfirmText(getResources().getString(R.string.bookmark_yes))
                 .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                     @Override
                     public void onClick(SweetAlertDialog sDialog) {
 
+                        Intent intent = new Intent(getActivity(), HomeActivity.class);
+                        getActivity().startActivity(intent);
                         getActivity().finish();
-                        //getActivity().finishAffinity();
-                        //System.exit(0);
 
                     }
                 })
@@ -287,11 +300,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                         bookmark.setLevel(comicReceive.getData().getPages().get(b).getLevel());
                         bookmark.setOption(comicReceive.getData().getPages().get(b).getOption());
                         bookmark.setPosition(Integer.toString(intBookmarkPosition));
-
-                        Log.e("Level", comicReceive.getData().getPages().get(b).getLevel());
-                        Log.e("Character", comicReceive.getData().getPages().get(b).getCharacter());
-                        Log.e("Option", comicReceive.getData().getPages().get(b).getOption());
-                        Log.e("Position", Integer.toString(intBookmarkPosition));
 
                         Gson gsonUserInfo = new Gson();
                         String bookmarkInfo = gsonUserInfo.toJson(bookmark);
@@ -384,7 +392,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
 
             if (comicReceiveSP.getData().getPages().get(c).getIs_shareable().equals("1")) {
 
-                Log.e("This Page Shareable" + Integer.toString(c), comicReceiveSP.getData().getPages().get(c).getShareable_image());
                 /*Glide.with(this)
                         .load(comicReceiveSP.getData().getPages().get(c).getShareable_image())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -499,13 +506,12 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                 flightType.setPadding(10, 5, 10, 5);
                 flightType.setLayoutParams(matchParent);
                 flightType.setGravity(Gravity.CENTER | Gravity.TOP);
-                flightType.setTag(comicReceiveSP.getData().getNext_level_options().get(x).getOption() + "/" + comicReceiveSP.getData().getNext_level_options().get(x).getLevel() + "/" + comicReceiveSP.getData().getNext_level_options().get(x).getCharacter());
+                flightType.setTag(comicReceiveSP.getData().getNext_level_options().get(x).getOption() + "/" + comicReceiveSP.getData().getNext_level_options().get(x).getLevel() + "/" + comicReceiveSP.getData().getNext_level_options().get(x).getCharacter() + "/" + comicReceiveSP.getData().getPages().get(x).getLevel() + "/" + comicReceiveSP.getData().getPages().get(x).getOption());
 
 
                 final ImageView optionImage = new ImageView(getActivity());
                 //optionImage.setPadding(4, 4, 4, 4);
                 //optionImage.setImageResource(optionList[x]);
-                Log.e("Comic Name", comicReceiveSP.getData().getNext_level_options().get(x).getImage_name());
                 Glide.with(this)
                         .load(comicReceiveSP.getData().getNext_level_options().get(x).getImage_name())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
@@ -532,40 +538,23 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                     @Override
                     public void onClick(View v) {
 
-                        new SweetAlertDialog(getActivity(), SweetAlertDialog.NORMAL_TYPE)
-                                .setTitleText(getResources().getString(R.string.comic_proceed))
-                                //.setContentText(getResources().getString(R.string.))
-                                .showCancelButton(true)
-                                .setCancelText(getResources().getString(R.string.bookmark_no))
-                                .setConfirmText(getResources().getString(R.string.bookmark_yes))
-                                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
+                        //onclick option - next level
+                        String string = flightType.getTag().toString();
+                        String[] parts = string.split("/");
 
-                                        String string = flightType.getTag().toString();
-                                        String[] parts = string.split("/");
+                        //HomeFragment.requestComic(getActivity(), level, option);
+                        HashMap<String, String> params = new HashMap<String, String>();
+                        params.put("character", parts[2]);
+                        params.put("level", parts[1]);
+                        params.put("option", parts[0]);
+                        params.put("token", token);
 
-                                        //HomeFragment.requestComic(getActivity(), level, option);
-                                        HashMap<String, String> params = new HashMap<String, String>();
-                                        params.put("character", parts[2]);
-                                        params.put("level", parts[1]);
-                                        params.put("option", parts[0]);
-                                        params.put("token", token);
+                        previous_level = parts[3];
+                        previous_option = parts[4];
 
-                                        initiateLoading(getActivity());
-                                        presenter.onComicRequest(params);
-                                        sDialog.dismiss();
 
-                                    }
-                                })
-                                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                                    @Override
-                                    public void onClick(SweetAlertDialog sDialog) {
-                                        sDialog.cancel();
-                                    }
-                                })
-                                .show();
-
+                        initiateLoading(getActivity());
+                        presenter.onComicRequest(params);
 
                     }
 
@@ -600,12 +589,10 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
             }
 
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                Log.e("onPageScrollState", Integer.toString(position) + "-" + Float.toString(positionOffset) + "-" + Integer.toString(positionOffsetPixels));
                 close++;
                 if (close > 1 && !optionLevel.equals("0") && position == 0 && positionOffsetPixels == 0) {
                     if (bookmarkPosition == null) {
 
-                        Log.e("Previous page", "False_1");
                         /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
                             HashMap<String, String> params = new HashMap<String, String>();
@@ -635,8 +622,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                         */
                     }
                 } else {
-                    Log.e("secondaryClose inc", Integer.toString(secondaryClose));
-                    Log.e("secondaryClose", Integer.toString(secondaryClose));
 
                     if (reachingFirst && position == 0 && positionOffset == 0 && positionOffsetPixels == 0) {
                         secondaryClose++;
@@ -644,7 +629,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
 
                     if (secondaryClose > 2 && bookmarkPosition != null && optionLevel.equals("0") && position == 0 && positionOffset == 0 && positionOffsetPixels == 0) {
 
-                        Log.e("Previous page", "False_3");
                         /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
                             HashMap<String, String> params = new HashMap<String, String>();
@@ -665,11 +649,50 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
             public void onPageSelected(final int position) {
                 comic_page_flip(getActivity());
 
-                if (position == 2 && optionLevel.equals("2")) {
+                if (position == 1 && optionLevel.equals("10") && !notPopup) {
                     Log.e("User want to continue?", "Y");
+                    SweetAlertDialog pDialog = new SweetAlertDialog(getActivity(), SweetAlertDialog.NORMAL_TYPE);
+                    pDialog.setTitleText(getResources().getString(R.string.comic_proceed));
+                    //.setContentText(getResources().getString(R.string.))
+                    pDialog.showCancelButton(true);
+                    pDialog.setCancelable(false);
+                    pDialog.setCancelText(getResources().getString(R.string.bookmark_no));
+                    pDialog.setConfirmText(getResources().getString(R.string.bookmark_yes));
+                    pDialog.setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                        @Override
+                        public void onClick(SweetAlertDialog sDialog) {
+                            sDialog.dismiss();
+                            notPopup = true;
+                        }
+                    })
+                            .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                @Override
+                                public void onClick(SweetAlertDialog sDialog) {
+                                    sDialog.dismiss();
+                                    notPopup = false;
+
+                                    HashMap<String, String> params = new HashMap<String, String>();
+                                    params.put("character", comicReceive.getData().getPages().get(0).getCharacter());
+                                    params.put("level", previous_level);
+                                    params.put("option", previous_option);
+
+                                    //params.put("level", comicReceive.getData().getPrevious_level());
+                                    //params.put("option", comicReceive.getData().getPrevious_option());
+
+                                    params.put("token", token);
+                                    fromBookmark = true;
+                                    initiateLoading(getActivity());
+
+                                    Log.e("Level", previous_level);
+                                    Log.e("Option", previous_option);
+
+                                    presenter.onComicRequest(params);
+
+                                }
+                            })
+                            .show();
                 }
 
-                Log.e("onPageSelected", Integer.toString(position));
                 if (position == 0) {
                     reachingFirst = true;
                     secondaryClose++;
@@ -677,7 +700,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
 
                 if (position == comicReceive.getData().getPages().size()) {
                     lastPosition = true;
-                    Log.e("LastPosition", "true");
                 }
 
                 intBookmarkPosition = position;
@@ -689,7 +711,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                             btnShare.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
-                                    Log.e("BTN SHARE", "CLick");
                                     initiateLoading(getActivity());
                                     Glide.with(getActivity())
                                             .load(comicReceiveSP.getData().getPages().get(position).getShareable_image())
@@ -699,12 +720,10 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                                                 @Override
                                                 public void onResourceReady(Bitmap drawable, GlideAnimation anim) {
                                                     super.onResourceReady(drawable, anim);
-                                                    Log.e("Done Download", "Yes");
                                                     dismissLoading();
 
                                                     share_able.setVisibility(View.GONE);
                                                     Uri uri = test(share_able);
-                                                    Log.e("URI123", uri.toString());
 
                                                     Intent shareIntent = new Intent();
                                                     shareIntent.setAction(Intent.ACTION_SEND);
@@ -763,7 +782,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
     public void onComicReceive(ComicReceive obj) {
 
         dismissLoading();
-        Log.e("XX", "XX");
 
         Boolean status = Controller.getRequestStatus(obj.getStatus(), "test", getActivity());
         if (status) {
@@ -777,6 +795,9 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                 onBoard.putExtra("FROM_BOOKMARK", "Y");
             }
             onBoard.putExtra("OPTION_LEVEL", "10");
+            onBoard.putExtra("PREVIOUS_LEVEL", previous_level);
+            onBoard.putExtra("PREVIOUS_OPTION", previous_option);
+
             getActivity().startActivity(onBoard);
             getActivity().finish();
 
