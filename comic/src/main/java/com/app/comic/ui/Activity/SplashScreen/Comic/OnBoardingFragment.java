@@ -102,6 +102,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
     Boolean notPopup = false;
     //PhotoViewAttacher mAttacher;
     String previous_level, previous_option;
+    Boolean previousPopup = false;
 
     public static OnBoardingFragment newInstance(Bundle bundle) {
 
@@ -154,6 +155,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
         try {
             if (bundle.containsKey("FROM_BOOKMARK")) {
                 checkFromBookMark = bundle.getString("FROM_BOOKMARK");
+                notPopup = true;
             }
         } catch (Exception e) {
 
@@ -285,6 +287,32 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
     public void exitApp() {
 
         new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                .setTitleText(getResources().getString(R.string.comic_exit_alpha))
+                .setContentText(getResources().getString(R.string.comic_confirm_exit))
+                .showCancelButton(true)
+                .setCancelText(getResources().getString(R.string.comic_cancel_exit))
+                .setConfirmText(getResources().getString(R.string.comic_exit))
+                .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+
+                        bookmark();
+
+                    }
+                })
+                .setCancelClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                    @Override
+                    public void onClick(SweetAlertDialog sDialog) {
+                        sDialog.cancel();
+                    }
+                })
+                .show();
+
+    }
+
+    public void bookmark() {
+
+        new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
                 .setTitleText(getResources().getString(R.string.comic_exit))
                 .setContentText(getResources().getString(R.string.bookmark_confirm))
                 .showCancelButton(true)
@@ -305,12 +333,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                         String bookmarkInfo = gsonUserInfo.toJson(bookmark);
                         RealmObjectController.saveBookmark(getActivity(), bookmarkInfo);
 
-
-                        //Intent intent = new Intent(getActivity(), PassCodeActivity.class);
-                        //intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_BROUGHT_TO_FRONT);
-                        //getActivity().startActivity(intent);
-                        //getActivity().finish();
-
                         getActivity().finish();
                         getActivity().finishAffinity();
                         System.exit(0);
@@ -326,8 +348,6 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                     }
                 })
                 .show();
-
-
     }
 
     public void startPagination(final ComicReceive comicReceiveSP) {
@@ -593,6 +613,24 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                 if (close > 1 && !optionLevel.equals("0") && position == 0 && positionOffsetPixels == 0) {
                     if (bookmarkPosition == null) {
 
+                        if (!previousPopup) {
+                            new SweetAlertDialog(getActivity(), SweetAlertDialog.WARNING_TYPE)
+                                    .setTitleText("Hey there!")
+                                    .setContentText("Cannot go to previous level")
+                                    .setConfirmText("Ok")
+                                    .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                                        @Override
+                                        public void onClick(SweetAlertDialog sDialog) {
+
+                                            previousPopup = false;
+                                            sDialog.dismiss();
+
+                                        }
+                                    })
+                                    .show();
+                            previousPopup = true;
+                        }
+
                         /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
                             HashMap<String, String> params = new HashMap<String, String>();
@@ -628,6 +666,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                     }
 
                     if (secondaryClose > 2 && bookmarkPosition != null && optionLevel.equals("0") && position == 0 && positionOffset == 0 && positionOffsetPixels == 0) {
+
 
                         /*
                         if (!comicReceive.getData().getPages().get(0).getLevel().equals("1")) {
@@ -798,9 +837,8 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
             onBoard.putExtra("PREVIOUS_LEVEL", previous_level);
             onBoard.putExtra("PREVIOUS_OPTION", previous_option);
 
-            getActivity().startActivity(onBoard);
+            startActivity(onBoard);
             getActivity().finish();
-
 
         }
     }
