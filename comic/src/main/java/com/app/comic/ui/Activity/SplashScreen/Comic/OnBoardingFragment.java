@@ -514,7 +514,7 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
 
         if (comicReceiveSP.getData().getNext_level_options().size() > 0) {
 
-            LinearLayout.LayoutParams matchParent = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 1f);
+            LinearLayout.LayoutParams matchParent = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
 
             View insideComicOption = innerLayout.inflate(R.layout.comic_option_view, null);
             LinearLayout appendImage = (LinearLayout) insideComicOption.findViewById(R.id.appendImage);
@@ -526,11 +526,13 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                 flightType.setPadding(10, 5, 10, 5);
                 flightType.setLayoutParams(matchParent);
                 flightType.setGravity(Gravity.CENTER | Gravity.TOP);
+                /*flightType.setGravity(Gravity.CENTER);*/
                 flightType.setTag(comicReceiveSP.getData().getNext_level_options().get(x).getOption() + "/" + comicReceiveSP.getData().getNext_level_options().get(x).getLevel() + "/" + comicReceiveSP.getData().getNext_level_options().get(x).getCharacter() + "/" + comicReceiveSP.getData().getPages().get(x).getLevel() + "/" + comicReceiveSP.getData().getPages().get(x).getOption());
 
 
                 final ImageView optionImage = new ImageView(getActivity());
-                //optionImage.setPadding(4, 4, 4, 4);
+                optionImage.setAdjustViewBounds(true);
+                optionImage.setPadding(5, 5, 5, 5);
                 //optionImage.setImageResource(optionList[x]);
                 Glide.with(this)
                         .load(comicReceiveSP.getData().getNext_level_options().get(x).getImage_name())
@@ -554,12 +556,43 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                 });*/
 
                 flightType.addView(optionImage);
-                flightType.setOnClickListener(new View.OnClickListener() {
+
+                flightType.setOnTouchListener(new View.OnTouchListener() {
+                    @Override
+                    public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                        if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                            optionImage.setBackground(ContextCompat.getDrawable(getActivity(), R.drawable.image_border));
+                        } else if (motionEvent.getAction() == MotionEvent.ACTION_UP) {
+                            optionImage.setBackground(null);
+
+                            String string = flightType.getTag().toString();
+                            String[] parts = string.split("/");
+
+                            //HomeFragment.requestComic(getActivity(), level, option);
+                            HashMap<String, String> params = new HashMap<String, String>();
+                            params.put("character", parts[2]);
+                            params.put("level", parts[1]);
+                            params.put("option", parts[0]);
+                            params.put("token", token);
+
+                            previous_level = parts[3];
+                            previous_option = parts[4];
+
+
+                            initiateLoading(getActivity());
+                            presenter.onComicRequest(params);
+                        }
+
+                        return true;
+                    }
+                });
+                /*flightType.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
 
                         //onclick option - next level
-                        String string = flightType.getTag().toString();
+                        *//*String string = flightType.getTag().toString();
                         String[] parts = string.split("/");
 
                         //HomeFragment.requestComic(getActivity(), level, option);
@@ -574,11 +607,11 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
 
 
                         initiateLoading(getActivity());
-                        presenter.onComicRequest(params);
+                        presenter.onComicRequest(params);*//*
 
                     }
 
-                });
+                });*/
 
                 appendImage.addView(flightType);
 
