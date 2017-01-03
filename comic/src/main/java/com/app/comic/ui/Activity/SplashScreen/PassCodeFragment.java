@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +34,7 @@ import com.app.comic.ui.Module.AuthModule;
 import com.app.comic.ui.Presenter.HomePresenter;
 import com.app.comic.ui.Realm.RealmObjectController;
 import com.app.comic.utils.SharedPrefManager;
+import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -195,11 +197,22 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
 
             String passcode = new StringBuilder(a1).append(a2).append(a3).append(a4).append(a5).append(a6).toString();
 
+            //device id
+            String deviceId = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+            //token
+            String deviceToken = FirebaseInstanceId.getInstance().getToken();
+            if (deviceToken == null) {
+                deviceToken = "";
+            }
+
+            Log.e("TOKEN", "+" + deviceToken);
+            Log.e("DEVICE ID", "+" + deviceId);
+
             AuthRequest authRequest = new AuthRequest();
             authRequest.setPasscode(passcode);
             authRequest.setPlatform("Android");
-            authRequest.setUdid("UDID");
-            authRequest.setPush_token("null");
+            authRequest.setUdid(deviceId);
+            authRequest.setPush_token(deviceToken);
 
             initiateLoading(getActivity());
             presenter.onAuthRequest(authRequest);

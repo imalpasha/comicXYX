@@ -1,27 +1,27 @@
 {
   "project_info": {
-    "project_number": "201416802952",
-    "firebase_url": "https://aabp00x.firebaseio.com",
-    "project_id": "aabp00x",
-    "storage_bucket": "aabp00x.appspot.com"
+    "project_number": "209371954988",
+    "firebase_url": "https://fch-comic.firebaseio.com",
+    "project_id": "fch-comic",
+    "storage_bucket": "fch-comic.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:201416802952:android:c8fb2a99e6bdb12a",
+        "mobilesdk_app_id": "1:209371954988:android:c8fb2a99e6bdb12a",
         "android_client_info": {
           "package_name": "com.app.comic"
         }
       },
       "oauth_client": [
         {
-          "client_id": "201416802952-8skt043n6eu2b19s4cm2ktg0hmqokri6.apps.googleusercontent.com",
+          "client_id": "209371954988-l15pqurkrgsrta4t1rav768v4c5pa10m.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
-      "api_key": [
+       "api_key": [
         {
-          "current_key": "AIzaSyDq4qolTNxWdrKF1FYHrd2AMNzWhhp0xrk"
+          "current_key": "AIzaSyAalfJlgDue_viaJ5DTY_4U8iKheiKlMWQ"
         }
       ],
       "services": {
