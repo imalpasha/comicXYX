@@ -27,7 +27,6 @@
             android:layout_height="wrap_content"
             android:textColor="@color/dark_lvl5"
             android:textSize="20dp"
-            android:text="Firefly Airlines"
             android:id="@+id/push_title" />
 
         <TextView
@@ -37,18 +36,17 @@
             android:textSize="15dp"
             android:gravity="center"
             android:textColor="@color/dark_lvl6"
-            android:text="Fly with us now! Fly with us now! Fly with us now! Fly with us now!"
             android:id="@+id/push_content" />
 
         <Button
             android:layout_marginTop="15dp"
             android:layout_width="140dp"
             android:layout_height="wrap_content"
-            android:text="Close"
+            android:text="@string/home_close"
             android:id="@+id/push_close_btn"
             android:textColor="@color/white"
             android:textStyle="bold"
-            android:background="@drawable/login_login_button_clicked"/>
+            android:background="@drawable/push_notification_btn_clicked"/>
     </LinearLayout>
 
 </LinearLayout>

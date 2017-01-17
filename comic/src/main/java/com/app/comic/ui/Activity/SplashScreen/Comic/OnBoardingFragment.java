@@ -535,7 +535,8 @@ public class OnBoardingFragment extends BaseFragment implements HomePresenter.Co
                 Glide.with(this)
                         .load(comicReceiveSP.getData().getNext_level_options().get(x).getImage_name())
                         .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                        .fitCenter()
+                        .centerCrop()
+                        .placeholder(ContextCompat.getDrawable(getActivity(), R.drawable.image_placholder))
                         .into(optionImage);
 
                 //set border

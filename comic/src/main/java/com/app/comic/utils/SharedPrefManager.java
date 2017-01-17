@@ -64,6 +64,9 @@ public class SharedPrefManager {
 
     public static final String MUSIC = "Y";
     public static final String LANGUAGE_CODE = "en";
+    public static final String AUTHORIZE = "AT";
+    public static final String PASSCODE = "PC";
+
 
 
     int PRIVATE_MODE = 0;
@@ -77,6 +80,17 @@ public class SharedPrefManager {
         _prefsEditor = _sharedPrefs.edit();
     }
 
+    public HashMap<String, String> getAuthorize() {
+        HashMap<String, String> init = new HashMap<String, String>();
+        init.put(AUTHORIZE, _sharedPrefs.getString(AUTHORIZE, null));
+        return init;
+    }
+
+    public HashMap<String, String> getPasscode() {
+        HashMap<String, String> init = new HashMap<String, String>();
+        init.put(PASSCODE, _sharedPrefs.getString(PASSCODE, null));
+        return init;
+    }
 
     public HashMap<String, String> getLanguageCode() {
         HashMap<String, String> init = new HashMap<String, String>();
@@ -343,6 +357,10 @@ public class SharedPrefManager {
         return init;
     }
 
+    public void setAuthorize(String auth) {
+        _prefsEditor.putString(AUTHORIZE, auth);
+        _prefsEditor.apply();
+    }
 
     /*ForceLogout*/
     public void setLanguageCountry(String languageCountry) {
@@ -384,6 +402,13 @@ public class SharedPrefManager {
         HashMap<String, String> init = new HashMap<String, String>();
         init.put(PASSWORD, _sharedPrefs.getString(PASSWORD, null));
         return init;
+    }
+
+
+    /*Set SEAT*/
+    public void setPasscode(String passcode) {
+        _prefsEditor.putString(PASSCODE, passcode);
+        _prefsEditor.apply();
     }
 
     /*Set SEAT*/

@@ -17,9 +17,13 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.QueryMap;
+import rx.Observable;
 
 public interface ApiService {
 
+
+    //@POST("auth")
+    //Call<AuthReceive> auth(@Body AuthRequest obj);
 
     @POST("auth")
     Call<AuthReceive> auth(@Body AuthRequest obj);

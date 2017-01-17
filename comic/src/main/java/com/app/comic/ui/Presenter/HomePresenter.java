@@ -78,6 +78,7 @@ public class HomePresenter {
 
     public void onComicRequest(HashMap<String, String> params) {
         bus.post(new HashMap<String, String>(params));
+        Log.e("Send?", "Y");
     }
 
     public void onAuthRequest(AuthRequest data) {

@@ -93,7 +93,8 @@ public class BaseFragment extends Fragment {
         TextView pushMessage = (TextView) myView.findViewById(R.id.push_title);
 
         pushTitle.setText(message);
-        pushMessage.setText(title);
+        //pushMessage.setText(title);
+        pushMessage.setText("Pemburu Cahaya");
 
 
         //AlertDialog.Builder builder = new AlertDialog.Builder(act);

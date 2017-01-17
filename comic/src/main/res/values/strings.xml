@@ -7,6 +7,8 @@
 
     <!-- Passcode -->
     <string name="enter_passcode">Enter passcode to start</string>
+    <string name="start">Click to start</string>
+
 
     <!--Home -->
     <string name="select_story">Select Story</string>
@@ -25,6 +27,7 @@
     <string name="comic_confirm_exit">Are you sure want to exit?</string>
     <string name="comic_cancel_exit">Cancel</string>
     <string name="comic_exit">Exit</string>
+    <string name="home_close">Close</string>
 
     <string name="comic_next_option">Choose next action</string>
     <string name="comic_end">Congratulations. Comic Finished.</string>

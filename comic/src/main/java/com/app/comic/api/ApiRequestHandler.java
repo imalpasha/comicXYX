@@ -26,6 +26,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Subscriber;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 public class ApiRequestHandler {
 
@@ -94,6 +97,32 @@ public class ApiRequestHandler {
     public void onAuthRequest(final AuthRequest event) {
         Log.e("Request Handle", "Handler");
 
+        //Call<AuthReceive> call = apiService2.auth(event);
+
+        /*ApiService service = ServiceFactory.createRetrofitService(ApiService.class, ApiEndpoint.getUrl());
+       // for(String login : Data.githubList) {
+        apiService2.auth(event)
+                    .subscribeOn(Schedulers.newThread())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(new Subscriber<AuthReceive>() {
+                        @Override
+                        public final void onCompleted() {
+                            // do nothing
+                            Log.e("onCompleted","Y")
+                        }
+
+                        @Override
+                        public final void onError(Throwable e) {
+                            Log.e("GithubDemo", e.getMessage());
+                        }
+
+                        @Override
+                        public final void onNext(AuthReceive response) {
+                            //mCardAdapter.addData(response);
+                        }
+                    });
+       // }*/
+
         Call<AuthReceive> call = apiService2.auth(event);
         call.enqueue(new Callback<AuthReceive>() {
             @Override
@@ -139,12 +168,15 @@ public class ApiRequestHandler {
                     int statusCode = response.code();
                     // handle request errors yourself
                     ResponseBody errorBody = response.errorBody();
+                    Log.e("error", errorBody.toString());
                 }
             }
 
             @Override
             public void onFailure(Call<ComicReceive> call, Throwable t) {
                 // handle execution failures like no internet connectivity
+                Log.e("error", t.getMessage());
+
             }
         });
     }

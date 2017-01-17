@@ -7,6 +7,7 @@
 
     <!-- Passcode -->
     <string name="enter_passcode">Masukkan no siri untuk mula</string>
+    <string name="start">Tekan untuk mula</string>
 
     <!-- Homepage -->
     <string name="select_story">Pilih Cerita</string>
@@ -26,6 +27,7 @@
     <string name="comic_cancel_exit">Tidak</string>
     <string name="comic_exit">Keluar</string>
     <string name="comic_proceed">Teruskan?</string>
+    <string name="home_close">Tutup</string>
 
     <string name="comic_next_option">Pilih seterusnya</string>
     <string name="comic_end">Tahniah. Cerita Tamat.</string>

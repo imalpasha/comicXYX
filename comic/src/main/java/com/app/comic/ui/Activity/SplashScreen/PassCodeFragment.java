@@ -71,6 +71,8 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
     TextView txtNo5Main;
     @InjectView(R.id.txtNo6Main)
     TextView txtNo6Main;
+    @InjectView(R.id.txtEnterSerialNumber)
+    TextView txtEnterSerialNumber;
 
     @InjectView(R.id.btnSetting)
     LinearLayout btnSetting;
@@ -87,6 +89,7 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
     TextView txtNo1, txtNo2, txtNo3, txtNo4, txtNo5, txtNo6;
     LinearLayout lineNo1, lineNo2, lineNo3, lineNo4, lineNo5, lineNo6;
     String position, character, level, option, token;
+    String deviceId, deviceToken, localPasscode;
 
     int currentPosition = 0;
 
@@ -115,6 +118,7 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
         view = inflater.inflate(R.layout.passcode, container, false);
         ButterKnife.inject(this, view);
         pref = new SharedPrefManager(getActivity());
+
 
         MainController.setHomeStatus();
 
@@ -158,15 +162,22 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
             }
         });
 
-
-        // txtNo1.setPaintFlags(Paint.UNDERLINE_TEXT_FLAG);
         btnStart.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
-                //Intent profilePage = new Intent(getActivity(), HomeActivity.class);
-                //getActivity().startActivity(profilePage);
-                validatePasscode();
-                //getActivity().finish();
+                HashMap<String, String> initAuth = pref.getAuthorize();
+                String auth = initAuth.get(SharedPrefManager.AUTHORIZE);
+
+                if (auth != null) {
+                    if (auth.equals("Y")) {
+                        resendFromBack();
+                        Log.e("Resend", "Y");
+                    } else {
+                        validatePasscode();
+                    }
+                } else {
+                    validatePasscode();
+                }
 
             }
         });
@@ -196,17 +207,21 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
             String a6 = test.get(5);
 
             String passcode = new StringBuilder(a1).append(a2).append(a3).append(a4).append(a5).append(a6).toString();
-
             //device id
-            String deviceId = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+            deviceId = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
             //token
-            String deviceToken = FirebaseInstanceId.getInstance().getToken();
+            deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+
             if (deviceToken == null) {
                 deviceToken = "";
             }
 
             Log.e("TOKEN", "+" + deviceToken);
             Log.e("DEVICE ID", "+" + deviceId);
+
+            localPasscode = passcode;
+            pref.setPasscode(localPasscode);
 
             AuthRequest authRequest = new AuthRequest();
             authRequest.setPasscode(passcode);
@@ -219,12 +234,36 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
         }
     }
 
+    public void resendFromBack() {
+
+        //device id
+        deviceId = Settings.Secure.getString(getActivity().getContentResolver(), Settings.Secure.ANDROID_ID);
+        //token
+        deviceToken = FirebaseInstanceId.getInstance().getToken();
+
+        HashMap<String, String> initAuth = pref.getPasscode();
+        String passcode = initAuth.get(SharedPrefManager.PASSCODE);
+        pref.setPasscode(passcode);
+
+        AuthRequest authRequest = new AuthRequest();
+        authRequest.setPasscode(passcode);
+        authRequest.setPlatform("Android");
+        authRequest.setUdid(deviceId);
+        authRequest.setPush_token(deviceToken);
+
+        initiateLoading(getActivity());
+        presenter.onAuthRequest(authRequest);
+    }
+
     @Override
     public void onAuthReceive(AuthReceive obj) {
 
+        dismissLoading();
 
         Boolean status = Controller.getRequestStatus(obj.getStatus(), "test", getActivity());
         if (status) {
+
+            pref.setAuthorize("Y");
 
             Gson tokenInfo = new Gson();
             String tokenInfo2 = tokenInfo.toJson(obj);
@@ -240,19 +279,19 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
                 option = bookmark.getOption();
                 position = bookmark.getPosition();
 
-                loadBookmark();
+                loadBookmarkV2(character, level, option, token);
 
             } else {
 
-                dismissLoading();
+                //dismissLoading();
+
+                //pref - login
 
                 Intent profilePage = new Intent(getActivity(), HomeActivity.class);
                 getActivity().startActivity(profilePage);
 
             }
 
-        } else {
-            dismissLoading();
         }
     }
 
@@ -443,8 +482,11 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
         }
     }
 
-    public void loadBookmark() {
 
+    public void loadBookmarkV2(String character, String level, String option, String token) {
+
+        initiateLoading(getActivity());
+        Log.e("Send", "true");
 
         HashMap<String, String> params = new HashMap<String, String>();
         params.put("character", character);
@@ -452,8 +494,20 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
         params.put("option", option);
         params.put("token", token);
 
+        presenter.onComicRequest(params);
+
+    }
+
+    public void loadBookmark() {
+
         initiateLoading(getActivity());
         Log.e("Send", "true");
+
+        HashMap<String, String> params = new HashMap<String, String>();
+        params.put("character", character);
+        params.put("level", level);
+        params.put("option", option);
+        params.put("token", token);
 
         presenter.onComicRequest(params);
 
@@ -519,6 +573,26 @@ public class PassCodeFragment extends BaseFragment implements HomePresenter.Auth
     public void onResume() {
         super.onResume();
         presenter.onResume();
+
+        //Check if already authorize
+        HashMap<String, String> initAuth = pref.getAuthorize();
+        String auth = initAuth.get(SharedPrefManager.AUTHORIZE);
+
+        if (auth != null) {
+            if (auth.equals("Y")) {
+                txtEnterSerialNumber.setText(R.string.start);
+                txtEnterSerialNumber.setTextSize(16f);
+                passcodeLayout.setVisibility(View.GONE);
+            } else {
+                txtEnterSerialNumber.setText(getString(R.string.enter_passcode));
+                txtEnterSerialNumber.setTextSize(12f);
+                passcodeLayout.setVisibility(View.VISIBLE);
+            }
+        } else {
+            txtEnterSerialNumber.setText(R.string.enter_passcode);
+            txtEnterSerialNumber.setTextSize(12f);
+            passcodeLayout.setVisibility(View.VISIBLE);
+        }
     }
 
     @Override

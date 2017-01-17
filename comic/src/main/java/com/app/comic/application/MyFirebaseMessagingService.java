@@ -94,9 +94,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Uri defaultSoundUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
                 .setSmallIcon(R.mipmap.drawable_hdpi_icon)
-                .setContentTitle("FCM Message")
+                .setContentTitle("Pemburu Cahaya")
                 .setStyle(new NotificationCompat.BigPictureStyle().bigPicture(bitmap))
-                .setContentText("?" + messageBody)
+                .setContentText(messageBody)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
